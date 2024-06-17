@@ -20,7 +20,8 @@ model = dict(
     space_scale=1.0,
     time_scale=1.0,
     no_temporal_pos_emb=True,
-    from_pretrained="PixArt-XL-2-512x512.pth",
+    # from_pretrained="PixArt-XL-2-512x512.pth",
+    from_pretrained="PRETRAINED_MODEL",
     enable_flash_attn=True,
     enable_layernorm_kernel=True,
 )
@@ -35,20 +36,20 @@ text_encoder = dict(
     shardformer=True,
 )
 scheduler = dict(
-    type="iddpm",
-    timestep_respacing="",
+    type="rflow",
+    # timestep_respacing="",
 )
 
 # Others
 seed = 42
 outputs = "outputs"
-wandb = False
+wandb = True
 
-epochs = 1000
+epochs = 2
 log_every = 10
 ckpt_every = 1000
 load = None
 
-batch_size = 32
+batch_size = 64
 lr = 2e-5
 grad_clip = 1.0

@@ -1,10 +1,10 @@
 # Define dataset
 dataset = dict(
     type="VideoTextDataset",
-    data_path=None,
+    data_path="/home/zhaowangbo/data/csv/image-v1_1_ext_noempty_rcp_clean_info.csv",
     num_frames=1,
     frame_interval=3,
-    image_size=(512, 512),
+    image_size=(2048, 2048),
 )
 
 # Define acceleration
@@ -16,23 +16,23 @@ sp_size = 1
 
 # Define model
 model = dict(
-    type="PixArt-XL/2",
-    space_scale=1.0,
-    time_scale=1.0,
+    type="PixArt-1B/2",
+    space_scale=4.0,
     no_temporal_pos_emb=True,
-    from_pretrained="PixArt-XL-2-512x512.pth",
+    from_pretrained="PixArt-1B-2.pth",
     enable_flash_attn=True,
     enable_layernorm_kernel=True,
 )
+
 vae = dict(
     type="VideoAutoencoderKL",
-    from_pretrained="stabilityai/sd-vae-ft-ema",
+    from_pretrained="PixArt-alpha/pixart_sigma_sdxlvae_T5_diffusers",
+    subfolder="vae",
 )
 text_encoder = dict(
     type="t5",
     from_pretrained="DeepFloyd/t5-v1_1-xxl",
-    model_max_length=120,
-    shardformer=True,
+    model_max_length=300,
 )
 scheduler = dict(
     type="iddpm",
@@ -49,6 +49,6 @@ log_every = 10
 ckpt_every = 1000
 load = None
 
-batch_size = 32
+batch_size = 4
 lr = 2e-5
 grad_clip = 1.0
