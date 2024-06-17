@@ -42,17 +42,16 @@ def install_dependencies(enable_optimization=False):
         except (ImportError, ModuleNotFoundError):
             return False
 
-    # flash attention is needed no matter optimization is enabled or not
-    # because Hugging Face transformers detects flash_attn is a dependency in STDiT
-    # thus, we need to install it no matter what
-    if not _is_package_available("flash_attn"):
-        subprocess.run(
-            f"{sys.executable} -m pip install flash-attn --no-build-isolation",
-            env={"FLASH_ATTENTION_SKIP_CUDA_BUILD": "TRUE"},
-            shell=True,
-        )
+    if enable_optimization:# flash attention is needed no matter optimization is enabled or not
+        # because Hugging Face transformers detects flash_attn is a dependency in STDiT
+        # thus, we need to install it no matter what
+        if not _is_package_available("flash_attn"):
+            subprocess.run(
+                f"{sys.executable} -m pip install flash-attn --no-build-isolation",
+                env={"FLASH_ATTENTION_SKIP_CUDA_BUILD": "TRUE"},
+                shell=True,
+            )
 
-    if enable_optimization:
         # install apex for fused layernorm
         if not _is_package_available("apex"):
             subprocess.run(
